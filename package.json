@@ -1,0 +1,63 @@
+{
+  "name": "datomic",
+  "version": "0.0.1",
+  "description": "datomic driver",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/limadelic/datomicjs.git"
+  },
+  "keywords": [
+    "db"
+  ],
+  "author": {
+    "name": "limadelic",
+    "email": "limadelic@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Isel Fernandez",
+      "email": "isel_77@hotmail.com"
+    },
+    {
+      "name": "Jeff Kwak",
+      "email": "jeff.kwak@gmail.com"
+    },
+    {
+      "name": "JP Erkelens",
+      "email": "jperkelens@gmail.com"
+    },
+    {
+      "name": "Mike Suarez",
+      "email": "mikemps@gmail.com"
+    }
+  ],
+  "licenses": [
+    "MIT"
+  ],
+  "dependencies": {
+    "coffee-script": "latest",
+    "fibers": "latest",
+    "fibrous": "latest",
+    "underscore": "latest",
+    "restler": "latest",
+    "optimist": "latest"
+  },
+  "devDependencies": {
+    "should": "latest"
+  },
+  "engines": {
+    "node": ">=0.6",
+    "npm": ">=1.1"
+  },
+  "scripts": {
+    "pretest": "build",
+    "test": "test"
+  },
+  "main": "./lib/datomicjs",
+  "readme": "datomicjs\r\n=========\r\n\r\njs driver for datomic",
+  "_id": "datomicjs@0.0.1",
+  "dist": {
+    "shasum": "beef197c2eebde913d7a1e486672562e11000f73"
+  },
+  "_from": "datomicjs"
+}
