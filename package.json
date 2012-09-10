@@ -35,15 +35,7 @@
     "MIT"
   ],
   "dependencies": {
-    "coffee-script": "latest",
-    "fibers": "latest",
-    "fibrous": "latest",
-    "underscore": "latest",
-    "restler": "latest",
-    "optimist": "latest"
-  },
-  "devDependencies": {
-    "should": "latest"
+    "request": "latest"
   },
   "engines": {
     "node": ">=0.6",
@@ -53,11 +45,5 @@
     "pretest": "build",
     "test": "test"
   },
-  "main": "./lib/datomicjs",
-  "readme": "datomicjs\r\n=========\r\n\r\njs driver for datomic",
-  "_id": "datomicjs@0.0.1",
-  "dist": {
-    "shasum": "beef197c2eebde913d7a1e486672562e11000f73"
-  },
-  "_from": "datomicjs"
+  "main": "./lib/datomicjs"
 }
