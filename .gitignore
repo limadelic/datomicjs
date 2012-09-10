@@ -1,6 +1,3 @@
-node_modules
-db
 *.sw?
-
 /db
 /node_modules
