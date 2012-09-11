@@ -35,7 +35,8 @@
     "MIT"
   ],
   "dependencies": {
-    "request": "latest"
+    "request": "latest",
+    "jsedn": "latest"
   },
   "engines": {
     "node": ">=0.6",
