@@ -1,12 +1,17 @@
 request = require 'request'
 { Edn } = require './edn'
 
-server = 'http://localhost:8888/'
+class @Datomic
 
-@create_database = (uri, done) ->
-  request.put server + 'db/' + uri, (err, res, body) ->
-    done err, res.statusCode is 201
+  constructor: (server, port, @alias) ->
+    @root = "http://#{server}:#{port}/"
 
-@db = (connection, done) ->
-  request.get server + 'db/' + connection, (err, res, body) ->
-    done err, new Edn body
+  db_uri: -> "#{@root}db/#{@alias}/#{@name}"  
+
+  createDatabase: (@name, done) ->
+    request.put @db_uri(), (err, res, body) ->
+      done err, res.statusCode is 201
+
+  db: (@name, done) ->
+    request.get @db_uri(), (err, res, body) ->
+      done err, new Edn body

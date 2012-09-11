@@ -1,6 +1,9 @@
-{ db, create_database } = require './datomic'
+{ Datomic } = require './datomic'
 
-create_database 'hello/time', (err, created) ->
+
+datomic = new Datomic 'localhost', 8888, 'hello'
+
+datomic.createDatabase 'world', (err, created) ->
   console.log created
-  db 'hello/time', (err, db) ->
+  datomic.db 'world', (err, db) ->
     console.log db
