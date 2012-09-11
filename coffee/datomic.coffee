@@ -3,15 +3,18 @@ request = require 'request'
 
 class @Datomic
 
-  constructor: (server, port, @alias) ->
+  constructor: (server, port, @alias, @name) ->
     @root = "http://#{server}:#{port}/"
 
   db_uri: -> "#{@root}db/#{@alias}/#{@name}"  
 
-  createDatabase: (@name, done) ->
+  createDatabase: (done) ->
     request.put @db_uri(), (err, res, body) ->
       done err, res.statusCode is 201
 
-  db: (@name, done) ->
+  db: (done) ->
     request.get @db_uri(), (err, res, body) ->
       done err, new Edn body
+
+  transact: (data, done) ->
+    
