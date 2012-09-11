@@ -1,7 +1,10 @@
 parser = require 'jsedn'
 
-class @Edn
+@json = (string) ->
+  edn = parser.parse string
+  result = {}
+  result[key] = edn.at key for key in edn.keys
+  result
 
-  constructor: (string) ->
-    console.log edn = parser.parse string
-    @[key] = edn.at key for key in edn.keys
+@edn = (array) ->
+  console.log parser.encode new parser.Vector array

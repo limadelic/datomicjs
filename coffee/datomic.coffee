@@ -1,5 +1,5 @@
 request = require 'request'
-{ Edn } = require './edn'
+{ json, edn } = require './edn'
 
 class @Datomic
 
@@ -14,7 +14,8 @@ class @Datomic
 
   db: (done) ->
     request.get @db_uri(), (err, res, body) ->
-      done err, new Edn body
+      done err, json body
 
   transact: (data, done) ->
-    
+    request.post @db_uri(), {body: '[:db/add 1 :x 42]'}, (err, res, body) ->
+      done err, body
