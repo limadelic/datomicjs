@@ -1,6 +1,6 @@
 request = require 'request'
 
-class @Datomic
+class exports.Datomic
 
   constructor: (server, port, alias, name) ->
     root = "http://#{server}:#{port}/"
