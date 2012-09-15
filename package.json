@@ -39,6 +39,10 @@
     "superagent": "latest",
     "jsedn": "latest"
   },
+  "devDependencies": {
+    "mocha": "latest",
+    "should": "latest"
+  },
   "engines": {
     "node": ">=0.6",
     "npm": ">=1.1"
