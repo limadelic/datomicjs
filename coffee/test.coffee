@@ -1,4 +1,4 @@
-{ Datomic } = require './datomic'
+{ Datomic } = require '../lib/datomic'
 
 datomic = new Datomic 'localhost', 8888, 'hello', 'world'
 

@@ -36,6 +36,7 @@
   ],
   "dependencies": {
     "request": "latest",
+    "superagent": "latest",
     "jsedn": "latest"
   },
   "engines": {
