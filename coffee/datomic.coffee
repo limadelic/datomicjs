@@ -1,5 +1,4 @@
 request = require 'request'
-_ = require 'underscore'
 
 class @Datomic
 
@@ -7,7 +6,7 @@ class @Datomic
     @root = "http://#{server}:#{port}/"
 
   db_uri: -> "#{@root}db/#{@alias}/#{@name}"  
-  datoms_uri: -> "#{@db_uri()}/datoms/#{@index}"  
+  datoms_uri: -> "#{@db_uri()}/datoms/#{@index}#{@query_string(@components)}"  
 
   createDatabase: (done) ->
     request.put @db_uri(), (err, res, body) ->
@@ -21,7 +20,11 @@ class @Datomic
     request.post @db_uri(), {body: data}, (err, res, body) ->
       done err, body
 
-  datoms: (@index, component...) ->
-    done = _.last component
+  datoms: (@index, @components...) ->
+    done = @components.pop()
     request.get @datoms_uri(), (err, res, body) ->
       done err, body
+
+  query_string: (values) ->
+    return '' unless values.length
+    return '?' + values.join '&'
