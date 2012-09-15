@@ -36,8 +36,7 @@
   ],
   "dependencies": {
     "request": "latest",
-    "superagent": "latest",
-    "jsedn": "latest"
+    "superagent": "latest"
   },
   "devDependencies": {
     "mocha": "latest",
