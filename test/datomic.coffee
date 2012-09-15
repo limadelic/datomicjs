@@ -26,6 +26,6 @@ describe 'Datomic', ->
 
   it 'should get datoms with options', (done) ->
 
-    datomic.datoms 'avet', 'limit=1', (err, datoms) ->
+    datomic.datoms 'avet', {limit:1}, (err, datoms) ->
       datoms.should.not.be.empty
       done()

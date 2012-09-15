@@ -6,7 +6,6 @@ class @Datomic
     @root = "http://#{server}:#{port}/"
 
   db_uri: -> "#{@root}db/#{@alias}/#{@name}"  
-  datoms_uri: -> "#{@db_uri()}/datoms/#{@index}#{@query_string(@components)}"  
 
   createDatabase: (done) ->
     request.put @db_uri(), (err, res, body) ->
@@ -20,11 +19,16 @@ class @Datomic
     request.post @db_uri(), {body: data}, (err, res, body) ->
       done err, body
 
-  datoms: (@index, @components...) ->
-    done = @components.pop()
-    request.get @datoms_uri(), (err, res, body) ->
+
+  datoms: (index, opt..., done) ->
+    uri = "#{@db_uri()}/datoms/#{index}#{@query_string opt}"  
+    
+    request.get uri, (err, res, body) ->
       done err, body
 
-  query_string: (values) ->
-    return '' unless values.length
-    return '?' + values.join '&'
+  indexRange: (attrid, opt, done) ->
+
+
+  query_string: (opt) ->
+    return '' if opt.length isnt 1
+    '?' + (field + '=' + value for field, value of opt[0]).join '&'
