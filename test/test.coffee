@@ -17,3 +17,9 @@ describe 'Datomic DB', ->
     datomic.transact schema.movies, (err, future) ->
       future.should.include ':db-after'
       done()
+
+  it 'should get datoms', (done) ->
+
+    datomic.datoms 'eavt', (err, datoms) ->
+      datoms.should.not.be.empty
+      done()
