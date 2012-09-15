@@ -29,3 +29,9 @@ describe 'Datomic', ->
     datomic.datoms 'avet', {limit:1}, (err, datoms) ->
       datoms.should.not.be.empty
       done()
+
+  it 'should get a range of index data', (done) ->
+
+    datomic.indexRange 'db/ident', (err, datoms) ->
+      console.log datoms
+      done()

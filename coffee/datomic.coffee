@@ -10,28 +10,24 @@ class @Datomic
     request.put @db_uri, (err, res, body) ->
       done err, res.statusCode is 201
 
-  db: (done) ->
-    request.get @db_uri, (err, res, body) ->
-      done err, body
+  db: (@done) -> @get @db_uri
 
   transact: (data, done) ->
     request.post @db_uri, {body: data}, (err, res, body) ->
       done err, body
 
+  datoms: (index, opt..., @done) ->
+    @get "#{@db_uri}/datoms/#{index}#{@query_string @parse_opt opt}"  
 
-  datoms: (index, opt..., done) ->
-    uri = "#{@db_uri}/datoms/#{index}#{@query_string @parse_opt opt}"  
-    
-    request.get uri, (err, res, body) ->
-      done err, body
-
-  indexRange: (attrid, opt..., done) ->
+  indexRange: (attrid, opt..., @done) ->
     opt = @parse_opt opt 
     opt.a = attrid
-    uri = "#{@db_uri}/range/#{@query_string opt}"  
-    
-    request.get uri, (err, res, body) ->
-      done err, body
+
+    @get "#{@db_uri}/range/#{@query_string opt}"
+
+  get: (uri) ->
+    request.get uri, (err, res, body) =>
+      @done err, body
 
   parse_opt: (opt) -> if opt.length is 1 then opt[0] else {}
 
