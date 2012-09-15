@@ -1,4 +1,5 @@
 { Datomic } = require '../coffee/datomic'
+schema = require './schema'
 
 describe 'Datomic DB', ->
 
@@ -13,7 +14,8 @@ describe 'Datomic DB', ->
         done()
 
   it 'should make transactions', (done) ->
+    console.log schema.movies
 
-    datomic.transact "", (err, future) ->
+    datomic.transact schema.movies, (err, future) ->
       console.log future
       done()

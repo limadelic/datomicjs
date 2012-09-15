@@ -17,5 +17,5 @@ class @Datomic
       done err, json body
 
   transact: (data, done) ->
-    request.post @db_uri(), {body: '[:db/add 1 :x 42]'}, (err, res, body) ->
+    request.post @db_uri(), {body: data}, (err, res, body) ->
       done err, body
