@@ -23,7 +23,7 @@ class @Datomic
     opt = @parse_opt opt 
     opt.a = attrid
 
-    @get "#{@db_uri}/range/#{@query_string opt}"
+    @get "#{@db_uri}/range#{@query_string opt}"
 
   get: (uri) ->
     request.get uri, (err, res, body) =>
@@ -34,3 +34,4 @@ class @Datomic
   query_string: (opt) ->
     result = '?' + (field + '=' + value for field, value of opt).join '&'
     return '' if result is '?'
+    result
