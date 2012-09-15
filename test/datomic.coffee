@@ -9,7 +9,7 @@ describe 'Datomic', ->
     
     datomic.createDatabase (err, created) ->
       datomic.db (err, db) ->
-        db.should.include datomic.name
+        db.should.include 'db/test'
         done()
 
   it 'should make transactions', (done) ->
