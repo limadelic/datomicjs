@@ -8,14 +8,12 @@ describe 'Datomic DB', ->
   it 'should create a DB', (done) ->
     
     datomic.createDatabase (err, created) ->
-      console.log created
       datomic.db (err, db) ->
-        console.log db
+        db.should.include datomic.name
         done()
 
   it 'should make transactions', (done) ->
-    console.log schema.movies
 
     datomic.transact schema.movies, (err, future) ->
-      console.log future
+      future.should.include ':db-after'
       done()
