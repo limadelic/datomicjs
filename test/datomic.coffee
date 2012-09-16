@@ -48,8 +48,15 @@ describe 'Datomic', ->
       entity.should.include ':db/id 1'
       done()
 
-  it 'should allow to query with string', (done) ->
-    datomic.transact '[[:db/add 1 :movie/title "trainspotting"]]', (err, res) ->
+  it 'should allow to query', (done) ->
+    datomic.transact '[[:db/add 1 :movie/title "trainspotting"]]', ->
       datomic.q '[:find ?m :where [?m :movie/title "trainspotting"]]', (err, movies) ->
         movies.should.equal '[[1]]'
         done()
+
+  it 'should allow to query with opt', (done) ->
+    datomic.transact '[[:db/add 2 :movie/title "the matrix"]]', ->
+      datomic.transact '[[:db/add 3 :movie/title "the matrix reloaded"]]', ->
+        datomic.q '[:find ?m :where [?m :movie/title]]', {limit:1, offset:2}, (err, movies) ->
+          movies.should.equal '[[2]]'
+          done()
