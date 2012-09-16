@@ -1,10 +1,11 @@
 request = require 'request'
+qs = require 'querystring'
 
 class exports.Datomic
 
   constructor: (server, port, alias, name) ->
-    root = "http://#{server}:#{port}/"
-    @db_uri = "#{root}db/#{alias}/#{name}"
+    @root = "http://#{server}:#{port}/"
+    @db_uri = "#{@root}db/#{alias}/#{name}"
 
   createDatabase: (done) ->
     request.put @db_uri, (err, res, body) ->
@@ -17,13 +18,14 @@ class exports.Datomic
       done err, body
 
   datoms: (index, opt..., done) ->
-    get "#{@db_uri}/datoms/#{index}#{query_string parse_opt opt}", done
+    opt = parse_opt opt
+    get "#{@db_uri}/datoms/#{index}?#{qs.stringify opt}", done
 
   indexRange: (attrid, opt..., done) ->
     opt = parse_opt opt
     opt.a = attrid
 
-    get "#{@db_uri}/range#{query_string opt}", done
+    get "#{@db_uri}/range?#{qs.stringify opt}", done
 
   entity: (eid, opt..., done) ->
     if is_object eid
@@ -33,7 +35,7 @@ class exports.Datomic
       opt = parse_opt opt
       eid = '/' + eid
 
-    get "#{@db_uri}/entity#{eid}#{query_string opt}", done
+    get "#{@db_uri}/entity#{eid}?#{qs.stringify opt}", done
 
   q: (query, done) -> done null, 'choose life'
     
@@ -45,10 +47,5 @@ class exports.Datomic
       done err, body
 
   parse_opt = (opt) -> if opt.length is 1 then opt[0] else {}
-
-  query_string = (opt) ->
-    result = '?' + (field + '=' + value for field, value of opt).join '&'
-    return '' if result is '?'
-    result
 
   is_object = (obj) -> obj is Object obj
