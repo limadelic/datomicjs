@@ -5,7 +5,8 @@ class exports.Datomic
 
   constructor: (server, port, alias, name) ->
     @root = "http://#{server}:#{port}/"
-    @db_uri = "#{@root}db/#{alias}/#{name}"
+    @db_alias = alias + '/' + name
+    @db_uri = "#{@root}db/#{@db_alias}"
 
   createDatabase: (done) ->
     request.put @db_uri, (err, res, body) ->
