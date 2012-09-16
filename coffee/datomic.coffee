@@ -38,8 +38,12 @@ class exports.Datomic
 
     get "#{@db_uri}/entity#{eid}?#{qs.stringify opt}", done
 
-  q: (query, done) -> done null, 'choose life'
-    
+  q: (query, done) ->
+    opt =
+      q: query
+      args: "[{:db/alias #{@db_alias}}]"
+
+    get "#{@root}api/query?#{qs.stringify opt}", done
 
 # -------------- private stuff ---------------------------
 

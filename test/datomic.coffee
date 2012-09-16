@@ -4,7 +4,7 @@ schema = require './schema'
 describe 'Datomic', ->
 
   datomic = new Datomic 'localhost', 8888, 'db', 'test'
-
+  
   it 'should create a DB', (done) ->
     
     datomic.createDatabase (err, created) ->
@@ -49,7 +49,7 @@ describe 'Datomic', ->
       done()
 
   it 'should allow to query with string', (done) ->
-    datomic.transact '[[:db/add 1 :movie/title trainspotting]]', ->
-      datomic.q '[:find ?m :where [?m :movie/title]]', (err, movies) ->
-        console.log movies
+    datomic.transact '[[:db/add 1 :movie/title "trainspotting"]]', (err, res) ->
+      datomic.q '[:find ?m :where [?m :movie/title "trainspotting"]]', (err, movies) ->
+        movies.should.equal '[[1]]'
         done()
