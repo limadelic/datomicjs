@@ -35,6 +35,11 @@ class exports.Datomic
 
     get "#{@db_uri}/entity#{eid}#{query_string opt}", done
 
+  q: (query, done) -> done null, 'choose life'
+    
+
+# -------------- private stuff ---------------------------
+
   get = (uri, done) ->
     request.get uri, (err, res, body) ->
       done err, body

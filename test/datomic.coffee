@@ -47,3 +47,9 @@ describe 'Datomic', ->
     datomic.entity {e:1, since:0}, (err, entity) ->
       entity.should.include ':db/id 1'
       done()
+
+  it 'should allow to query with string', (done) ->
+    datomic.transact '[[:db/add 1 :movie/title trainspotting]]', ->
+      datomic.q '[:find ?m :where [?m :movie/title]]', (err, movies) ->
+        console.log movies
+        done()
