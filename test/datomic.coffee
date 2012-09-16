@@ -35,3 +35,9 @@ describe 'Datomic', ->
     datomic.indexRange 'db/ident', (err, datoms) ->
       datoms.should.not.be.empty
       done()
+
+  it 'should get an entity', (done) ->
+
+    datomic.entity 1, (err, entity) ->
+      entity.should.include ':db/id 1'
+      done()

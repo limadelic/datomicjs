@@ -4,7 +4,7 @@ class exports.Datomic
 
   constructor: (server, port, alias, name) ->
     root = "http://#{server}:#{port}/"
-    @db_uri = "#{root}db/#{alias}/#{name}"  
+    @db_uri = "#{root}db/#{alias}/#{name}"
 
   createDatabase: (done) ->
     request.put @db_uri, (err, res, body) ->
@@ -25,6 +25,16 @@ class exports.Datomic
 
     get "#{@db_uri}/range#{query_string opt}", done
 
+  entity: (eid, opt..., done) ->
+    if is_object eid
+      opt = eid
+      eid = ''
+    else
+      opt = parse_opt opt
+      eid = '/' + eid
+
+    get "#{@db_uri}/entity#{eid}#{query_string opt}", done
+
   get = (uri, done) ->
     request.get uri, (err, res, body) ->
       done err, body
@@ -35,3 +45,5 @@ class exports.Datomic
     result = '?' + (field + '=' + value for field, value of opt).join '&'
     return '' if result is '?'
     result
+
+  is_object = (obj) -> obj is Object obj
