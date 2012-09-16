@@ -17,14 +17,14 @@ describe 'Datomic', ->
     datomic.transact schema.movies, (err, future) ->
       future.should.include ':db-after'
       done()
-      ###
+
   it 'should get datoms', (done) ->
 
     datomic.datoms 'eavt', (err, datoms) ->
       datoms.should.not.be.empty
       done()
 
-  it 'should get datoms with options', (done) ->
+      ###  it 'should get datoms with options', (done) ->
 
     datomic.datoms 'avet', {limit:1}, (err, datoms) ->
       datoms.should.not.be.empty
