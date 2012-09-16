@@ -9,16 +9,15 @@ describe 'Datomic', ->
     
     datomic.createDatabase (err, created) ->
       datomic.db (err, db) ->
-        console.log db
-        #db.should.include 'db/test'
+        db.should.include 'db/test'
         done()
-        ###
+
   it 'should make transactions', (done) ->
 
     datomic.transact schema.movies, (err, future) ->
       future.should.include ':db-after'
       done()
-
+      ###
   it 'should get datoms', (done) ->
 
     datomic.datoms 'eavt', (err, datoms) ->
