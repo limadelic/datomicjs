@@ -41,3 +41,9 @@ describe 'Datomic', ->
     datomic.entity 1, (err, entity) ->
       entity.should.include ':db/id 1'
       done()
+
+  it 'should get an entity with options', (done) ->
+
+    datomic.entity {e:1, since:0}, (err, entity) ->
+      entity.should.include ':db/id 1'
+      done()
