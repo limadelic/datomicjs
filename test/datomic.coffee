@@ -49,14 +49,27 @@ describe 'Datomic', ->
       done()
 
   it 'should allow to query', (done) ->
+    
     datomic.transact '[[:db/add 1 :movie/title "trainspotting"]]', ->
       datomic.q '[:find ?m :where [?m :movie/title "trainspotting"]]', (err, movies) ->
         movies.should.equal '[[1]]'
         done()
 
   it 'should allow to query with opt', (done) ->
+    
     datomic.transact '[[:db/add 2 :movie/title "the matrix"]]', ->
       datomic.transact '[[:db/add 3 :movie/title "the matrix reloaded"]]', ->
         datomic.q '[:find ?m :where [?m :movie/title]]', {limit:1, offset:2}, (err, movies) ->
           movies.should.equal '[[2]]'
           done()
+
+  it 'should register to events', (done) ->
+
+    client = datomic.events()
+    client.on 'data', (data) ->
+      console.log data.toString()
+      console.log 'say who?'
+      client.end()
+    client.on 'end', ->
+      console.log 'bye'
+      done()

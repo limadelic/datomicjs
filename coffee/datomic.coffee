@@ -45,6 +45,10 @@ class exports.Datomic
 
     get "#{@root}api/query?#{qs.stringify opt}", done
 
+  events: -> require('net').connect {port: 8888, localAddress:"events/db/tessast"}, ->
+    console.log 'its on'
+
+
 # -------------- private stuff ---------------------------
 
   get = (uri, done) ->
