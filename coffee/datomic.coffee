@@ -63,11 +63,7 @@ class exports.Datomic
     get "#{@root}api/query?#{qs.stringify opt}", done
 
   events: -> 
-    client = new EventStream("#{@root}events/#{@db_alias}")
-    client.onerror = ->
-      console.dir 'HOLY SHIT'
-
-    return client
+    new EventStream("#{@root}events/#{@db_alias}")
 
 
 # -------------- private stuff ---------------------------
