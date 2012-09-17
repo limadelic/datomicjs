@@ -18,6 +18,14 @@ describe 'Datomic', ->
       future.should.include ':db-after'
       done()
 
+  it 'should register to events', (done) ->
+    client = datomic.events()
+    client.onmessage = (event) ->
+      event.data.should.include ':db-after'
+      client.close()
+      done()
+
+    datomic.transact schema.movies, (err, future) ->
 ###
   it 'should get datoms', (done) ->
 
@@ -64,13 +72,3 @@ describe 'Datomic', ->
           movies.should.equal '[[2]]'
           done()
 
-  it 'should register to events', (done) ->
-
-    client = datomic.events()
-    client.on 'data', (data) ->
-      console.log data.toString()
-      console.log 'say who?'
-      client.end()
-    client.on 'end', ->
-      console.log 'bye'
-      done()

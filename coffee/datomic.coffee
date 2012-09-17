@@ -1,5 +1,6 @@
 request = require 'request'
 qs = require 'querystring'
+EventStream = require 'eventsource'
 
 class exports.Datomic
 
@@ -59,8 +60,12 @@ class exports.Datomic
 
     get "#{@root}api/query?#{qs.stringify opt}", done
 
-  events: -> require('net').connect {port: 8888, localAddress:"events/db/tessast"}, ->
-    console.log 'its on'
+  events: -> 
+    client = new EventStream("#{@root}events/#{@db_alias}")
+    client.onerror = ->
+      console.dir 'HOLY SHIT'
+
+    return client
 
 
 # -------------- private stuff ---------------------------

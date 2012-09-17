@@ -36,7 +36,8 @@
   ],
   "dependencies": {
     "request": "latest",
-    "superagent": "latest"
+    "superagent": "latest",
+    "eventsource": "https://github.com/jperkelens/eventsource-node/tarball/master"
   },
   "devDependencies": {
     "mocha": "latest",
