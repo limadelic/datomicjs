@@ -35,7 +35,9 @@ class exports.Datomic
 
   datoms: (index, opt..., done) ->
     opt = parse_opt opt
-    get "#{@db_uri}/datoms/#{index}?#{qs.stringify opt}", done
+    opt.index = index
+
+    get "#{@db_uri}-/datoms/?index=#{index}&#{qs.stringify opt}", done
 
   indexRange: (attrid, opt..., done) ->
     opt = parse_opt opt

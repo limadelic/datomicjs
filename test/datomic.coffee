@@ -18,14 +18,6 @@ describe 'Datomic', ->
       future.should.include ':db-after'
       done()
 
-  it 'should register to events', (done) ->
-    client = datomic.events()
-    client.onmessage = (event) ->
-      event.data.should.include ':db-after'
-      client.close()
-      done()
-
-###
   it 'should get datoms', (done) ->
 
     datomic.datoms 'eavt', (err, datoms) ->
@@ -44,6 +36,16 @@ describe 'Datomic', ->
       datoms.should.not.be.empty
       done()
 
+  it 'should register to events', (done) ->
+    client = datomic.events()
+    client.onmessage = (event) ->
+      event.data.should.include ':db-after'
+      client.close()
+      done()
+
+    datomic.transact schema.movies, ->
+
+###
   it 'should get an entity', (done) ->
 
     datomic.entity 1, (err, entity) ->
