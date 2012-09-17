@@ -16,4 +16,11 @@ describe('Datomic', function(){
       })
     })
   })
+
+  it('should make transactions', function(done){
+    datomic.transact(schema.movies, function(err, future){
+      future.should.include(':db-after')
+      done()
+    })
+  })
 })
