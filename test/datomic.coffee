@@ -18,6 +18,7 @@ describe 'Datomic', ->
       future.should.include ':db-after'
       done()
 
+###
   it 'should get datoms', (done) ->
 
     datomic.datoms 'eavt', (err, datoms) ->

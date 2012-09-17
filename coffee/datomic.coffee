@@ -3,19 +3,33 @@ qs = require 'querystring'
 
 class exports.Datomic
 
-  constructor: (server, port, alias, name) ->
+  constructor: (server, port, alias, @name) ->
     @root = "http://#{server}:#{port}/"
     @db_alias = alias + '/' + name
-    @db_uri = "#{@root}db/#{@db_alias}"
+    @db_uri = "#{@root}data/#{@db_alias}/"
 
   createDatabase: (done) ->
-    request.put @db_uri, (err, res, body) ->
+    opts =
+      method: 'POST'
+      uri: "#{@root}data/db/"
+      form:
+        'db-name': @name
+
+    request opts, (err, res, body) ->
       done err, res.statusCode is 201
 
-  db: (done) -> get @db_uri, done
+  db: (done) -> get @db_uri + '-/', done
 
   transact: (data, done) ->
-    request.post @db_uri, {body: data}, (err, res, body) ->
+    opts =
+      method: 'POST'
+      uri: @db_uri
+      headers:
+        accept: 'application/edn'
+      form:
+        'tx-data': data
+
+    request.post opts, (err, res, body) ->
       done err, body
 
   datoms: (index, opt..., done) ->
