@@ -25,7 +25,6 @@ describe 'Datomic', ->
       client.close()
       done()
 
-    datomic.transact schema.movies, (err, future) ->
 ###
   it 'should get datoms', (done) ->
 
