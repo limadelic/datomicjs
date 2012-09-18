@@ -31,34 +31,35 @@ class exports.Datomic
     request.post opts, (err, res, body) ->
       done err, body
 
-  datoms: (index, opt..., done) ->
-    opt = parse_opt opt
-    opt.index = index
+  datoms: (index, opts..., done) ->
+    opts = parse_opts opts
+    opts.index = index
 
-    get "#{@db_uri}-/datoms?#{qs.stringify opt}", done
+    get "#{@db_uri}-/datoms?#{qs.stringify opts}", done
 
-  indexRange: (attrid, opt..., done) ->
-    opt = parse_opt opt
-    opt.a = attrid
+  indexRange: (attrid, opts..., done) ->
+    opts = parse_opts opts
+    opts.a = attrid
+    opts.index ?= 'aevt'
 
-    get "#{@db_uri}/range?#{qs.stringify opt}", done
+    get "#{@db_uri}-/datoms?#{qs.stringify opts}", done
 
-  entity: (eid, opt..., done) ->
+  entity: (eid, opts..., done) ->
     if is_object eid
-      opt = eid
+      opts = eid
       eid = ''
     else
-      opt = parse_opt opt
+      opts = parse_opts opts
       eid = '/' + eid
 
-    get "#{@db_uri}/entity#{eid}?#{qs.stringify opt}", done
+    get "#{@db_uri}/entity#{eid}?#{qs.stringify opts}", done
 
-  q: (query, opt..., done) ->
-    opt = parse_opt opt
-    opt.q = query
-    opt.args = "[{:db/alias #{@db_alias}}]"
+  q: (query, opts..., done) ->
+    opts = parse_opts opts
+    opts.q = query
+    opts.args = "[{:db/alias #{@db_alias}}]"
 
-    get "#{@root}api/query?#{qs.stringify opt}", done
+    get "#{@root}api/query?#{qs.stringify opts}", done
 
   events: ->
     new EventStream("#{@root}events/#{@db_alias}")
@@ -75,6 +76,6 @@ class exports.Datomic
     request opts, (err, res, body) ->
       done err, body
 
-  parse_opt = (opt) -> if opt.length is 1 then opt[0] else {}
+  parse_opts = (opts) -> if opts.length is 1 then opts[0] else {}
 
   is_object = (obj) -> obj is Object obj
