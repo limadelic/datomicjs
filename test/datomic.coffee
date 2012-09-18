@@ -42,16 +42,6 @@ describe 'Datomic', ->
       entity.should.include ':db/id 1'
       done()
 
-  it 'should register to events', (done) ->
-    client = datomic.events()
-    client.onmessage = (event) ->
-      event.data.should.include ':db-after'
-      client.close()
-      done()
-
-    datomic.transact schema.movies, ->
-
-###
   it 'should get an entity with options', (done) ->
 
     datomic.entity {e:1, since:0}, (err, entity) ->
@@ -73,3 +63,11 @@ describe 'Datomic', ->
           movies.should.equal '[[2]]'
           done()
 
+  it 'should register to events', (done) ->
+    client = datomic.events()
+    client.onmessage = (event) ->
+      event.data.should.include ':db-after'
+      client.close()
+      done()
+
+    datomic.transact schema.movies, ->
