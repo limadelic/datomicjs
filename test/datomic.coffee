@@ -63,7 +63,6 @@ describe 'Datomic', ->
           movies.should.equal '[[2]]'
           done()
 
-###
   it 'should register to events', (done) ->
     client = datomic.events()
     client.onmessage = (event) ->
