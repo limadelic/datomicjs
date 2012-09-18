@@ -48,7 +48,6 @@ describe 'Datomic', ->
       entity.should.include ':db/id 1'
       done()
 
-###
   it 'should allow to query', (done) ->
     
     datomic.transact '[[:db/add 1 :movie/title "trainspotting"]]', ->
@@ -64,6 +63,7 @@ describe 'Datomic', ->
           movies.should.equal '[[2]]'
           done()
 
+###
   it 'should register to events', (done) ->
     client = datomic.events()
     client.onmessage = (event) ->
