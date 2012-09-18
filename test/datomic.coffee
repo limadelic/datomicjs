@@ -30,7 +30,6 @@ describe 'Datomic', ->
       datoms.should.not.be.empty
       done()
       
-###
   it 'should get a range of index data', (done) ->
 
     datomic.indexRange 'db/ident', (err, datoms) ->
@@ -49,6 +48,7 @@ describe 'Datomic', ->
       entity.should.include ':db/id 1'
       done()
 
+###
   it 'should allow to query', (done) ->
     
     datomic.transact '[[:db/add 1 :movie/title "trainspotting"]]', ->

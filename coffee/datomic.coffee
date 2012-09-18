@@ -8,6 +8,7 @@ class exports.Datomic
     @root = "http://#{server}:#{port}/"
     @db_alias = alias + '/' + name
     @db_uri = "#{@root}data/#{@db_alias}/"
+    @db_uri_ = @db_uri + '-/'
 
   createDatabase: (done) ->
     opts =
@@ -18,7 +19,7 @@ class exports.Datomic
     request.post opts, (err, res, body) ->
       done err, res.statusCode is 201
 
-  db: (done) -> get @db_uri + '-/', done
+  db: (done) -> get @db_uri_, done
 
   transact: (data, done) ->
     opts =
@@ -35,14 +36,13 @@ class exports.Datomic
     opts = parse_opts opts
     opts.index = index
 
-    get "#{@db_uri}-/datoms?#{qs.stringify opts}", done
+    get "#{@db_uri_}datoms?#{qs.stringify opts}", done
 
   indexRange: (attrid, opts..., done) ->
     opts = parse_opts opts
     opts.a = attrid
-    opts.index ?= 'aevt'
 
-    get "#{@db_uri}-/datoms?#{qs.stringify opts}", done
+    get "#{@db_uri_}datoms?#{qs.stringify opts}", done
 
   entity: (eid, opts..., done) ->
     if is_object eid
@@ -51,7 +51,7 @@ class exports.Datomic
       opts = parse_opts opts
       opts.e = eid
 
-    get "#{@db_uri}-/entity?#{qs.stringify opts}", done
+    get "#{@db_uri_}entity?#{qs.stringify opts}", done
 
   q: (query, opts..., done) ->
     opts = parse_opts opts
