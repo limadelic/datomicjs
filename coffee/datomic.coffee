@@ -11,19 +11,17 @@ class exports.Datomic
 
   createDatabase: (done) ->
     opts =
-      method: 'POST'
       uri: "#{@root}data/db/"
       form:
         'db-name': @name
 
-    request opts, (err, res, body) ->
+    request.post opts, (err, res, body) ->
       done err, res.statusCode is 201
 
   db: (done) -> get @db_uri + '-/', done
 
   transact: (data, done) ->
     opts =
-      method: 'POST'
       uri: @db_uri
       headers:
         accept: 'application/edn'
@@ -37,7 +35,7 @@ class exports.Datomic
     opt = parse_opt opt
     opt.index = index
 
-    get "#{@db_uri}-/datoms/?index=#{index}&#{qs.stringify opt}", done
+    get "#{@db_uri}-/datoms?#{qs.stringify opt}", done
 
   indexRange: (attrid, opt..., done) ->
     opt = parse_opt opt
@@ -62,14 +60,19 @@ class exports.Datomic
 
     get "#{@root}api/query?#{qs.stringify opt}", done
 
-  events: -> 
+  events: ->
     new EventStream("#{@root}events/#{@db_alias}")
 
 
 # -------------- private stuff ---------------------------
 
   get = (uri, done) ->
-    request.get uri, (err, res, body) ->
+    opts =
+      uri: uri
+      headers:
+        accept: 'application/edn'
+
+    request opts, (err, res, body) ->
       done err, body
 
   parse_opt = (opt) -> if opt.length is 1 then opt[0] else {}

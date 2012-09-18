@@ -36,6 +36,7 @@ describe 'Datomic', ->
       datoms.should.not.be.empty
       done()
 
+###
   it 'should register to events', (done) ->
     client = datomic.events()
     client.onmessage = (event) ->
@@ -45,7 +46,6 @@ describe 'Datomic', ->
 
     datomic.transact schema.movies, ->
 
-###
   it 'should get an entity', (done) ->
 
     datomic.entity 1, (err, entity) ->
