@@ -7,7 +7,9 @@
     "url": "https://github.com/limadelic/datomicjs.git"
   },
   "keywords": [
-    "db"
+    "db",
+    "datomic",
+    "edn"
   ],
   "author": {
     "name": "limadelic",
@@ -51,5 +53,5 @@
     "pretest": "build",
     "test": "test"
   },
-  "main": "./lib/datomicjs"
+  "main": "./lib/datomic"
 }

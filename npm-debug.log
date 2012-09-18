@@ -1,0 +1,39 @@
+info it worked if it ends with ok
+verbose cli [ 'node', '/usr/local/bin/npm', 'test' ]
+info using npm@1.1.21
+info using node@v0.6.18
+verbose config file /Users/jerkelens/.npmrc
+verbose config file /usr/local/etc/npmrc
+verbose config file /usr/local/lib/node_modules/npm/npmrc
+verbose caching /Users/jerkelens/Projects/js/datomicjs/package.json
+verbose loadDefaults datomic@0.1.0
+verbose run-script [ 'pretest', 'test', 'posttest' ]
+info pretest datomic@0.1.0
+verbose unsafe-perm in lifecycle true
+silly exec sh "-c" "build"
+silly spawning [ 'sh',
+silly spawning   [ '-c', 'build' ],
+silly spawning   '/Users/jerkelens/Projects/js/datomicjs' ]
+info datomic@0.1.0 Failed to exec pretest script
+ERR! datomic@0.1.0 pretest: `build`
+ERR! `sh "-c" "build"` failed with 127
+ERR! 
+ERR! Failed at the datomic@0.1.0 pretest script.
+ERR! This is most likely a problem with the datomic package,
+ERR! not with npm itself.
+ERR! Tell the author that this fails on your system:
+ERR!     build
+ERR! You can get their info via:
+ERR!     npm owner ls datomic
+ERR! There is likely additional logging output above.
+ERR! 
+ERR! System Darwin 10.8.0
+ERR! command "node" "/usr/local/bin/npm" "test"
+ERR! cwd /Users/jerkelens/Projects/js/datomicjs
+ERR! node -v v0.6.18
+ERR! npm -v 1.1.21
+ERR! code ELIFECYCLE
+ERR! message datomic@0.1.0 pretest: `build`
+ERR! message `sh "-c" "build"` failed with 127
+ERR! errno {}
+verbose exit [ 1, true ]
