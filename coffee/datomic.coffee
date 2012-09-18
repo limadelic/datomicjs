@@ -47,12 +47,11 @@ class exports.Datomic
   entity: (eid, opts..., done) ->
     if is_object eid
       opts = eid
-      eid = ''
     else
       opts = parse_opts opts
-      eid = '/' + eid
+      opts.e = eid
 
-    get "#{@db_uri}/entity#{eid}?#{qs.stringify opts}", done
+    get "#{@db_uri}-/entity?#{qs.stringify opts}", done
 
   q: (query, opts..., done) ->
     opts = parse_opts opts
