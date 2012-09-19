@@ -1,4 +1,3 @@
-#async = require 'async'
 { Datomic } = require src + 'datomic'
 schema = require './schema'
 
