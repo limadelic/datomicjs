@@ -43,6 +43,8 @@
   },
   "devDependencies": {
     "mocha": "latest",
+    "fibers": "latest",
+    "fibrous": "latest",
     "should": "latest"
   },
   "engines": {
