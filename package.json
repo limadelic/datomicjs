@@ -37,6 +37,7 @@
     "MIT"
   ],
   "dependencies": {
+    "jsedn": "latest",
     "request": "latest",
     "superagent": "latest",
     "eventsource": "https://github.com/jperkelens/eventsource-node/tarball/master"

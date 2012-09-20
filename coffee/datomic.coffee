@@ -1,5 +1,7 @@
 request = require 'request'
 qs = require 'querystring'
+
+jsedn = require 'jsedn'
 EventStream = require 'eventsource'
 
 class exports.Datomic

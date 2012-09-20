@@ -19,7 +19,5 @@ describe 'Sample with movies', ->
     add_movie 2, "the matrix"
     add_movie 3, "lola rennt"
 
-  it 'should return all', (done) ->
-    imdb.q '[:find ?m :where [?m :movie/title]]', (err, movies) ->
-      console.log movies
-      done err
+  it 'should return all', fibrous ->
+    console.log imdb.sync.q '[:find ?m :where [?m :movie/title]]'
