@@ -32,8 +32,7 @@ describe 'Datomic', ->
       
   it 'should get a range of index data', (done) ->
 
-    datomic.indexRange '', (err, datoms) ->
-      console.log datoms
+    datomic.indexRange 'db/ident', (err, datoms) ->
       datoms.should.not.be.empty
       done()
 

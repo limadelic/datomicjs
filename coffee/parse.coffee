@@ -10,6 +10,4 @@ edn = require 'jsedn'
 
 @json = (edn_str) ->
   try edn.toJS edn.parse edn_str
-  catch e
-    console.log e
-    edn_str
+  catch edn_str

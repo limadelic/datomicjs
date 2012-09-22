@@ -45,6 +45,7 @@ class exports.Datomic
   indexRange: (attrid, opts..., done) ->
     opts = parse_opts opts
     opts.a = attrid
+    opts.index ?= 'aevt'
 
     get "#{@db_uri_}datoms?#{qs.stringify opts}", done
 
