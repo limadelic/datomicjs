@@ -36,26 +36,26 @@ describe 'Datomic', ->
       datoms.should.not.be.empty
       done()
 
-###        
   it 'should get an entity', (done) ->
 
     datomic.entity 1, (err, entity) ->
-      entity.should.include ':db/id 1'
+      entity['db/id'].should.equal 1
       done()
 
   it 'should get an entity with options', (done) ->
 
     datomic.entity {e:1, since:0}, (err, entity) ->
-      entity.should.include ':db/id 1'
+      entity['db/id'].should.equal 1
       done()
 
   it 'should allow to query', (done) ->
     
     datomic.transact '[[:db/add 1 :movie/title "trainspotting"]]', ->
       datomic.q '[:find ?m :where [?m :movie/title "trainspotting"]]', (err, movies) ->
-        movies.should.equal '[[1]]'
+        movies[0][0].should.equal 1
         done()
 
+###        
   it 'should allow to query with opt', (done) ->
     
     datomic.transact '[[:db/add 2 :movie/title "the matrix"]]', ->
