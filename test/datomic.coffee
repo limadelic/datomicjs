@@ -9,7 +9,7 @@ describe 'Datomic', ->
     
     datomic.createDatabase (err, created) ->
       datomic.db (err, db) ->
-        db.should.include 'db/test'
+        db['db/alias'].should.equal 'db/test'
         done()
 
   it 'should make transactions', (done) ->
@@ -27,15 +27,17 @@ describe 'Datomic', ->
   it 'should get datoms with options', (done) ->
 
     datomic.datoms 'avet', {limit:1}, (err, datoms) ->
-      datoms.should.not.be.empty
+      datoms.length.should.equal 1
       done()
       
   it 'should get a range of index data', (done) ->
 
-    datomic.indexRange 'db/ident', (err, datoms) ->
+    datomic.indexRange '', (err, datoms) ->
+      console.log datoms
       datoms.should.not.be.empty
       done()
 
+###        
   it 'should get an entity', (done) ->
 
     datomic.entity 1, (err, entity) ->

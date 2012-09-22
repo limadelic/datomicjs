@@ -1,6 +1,6 @@
 request = require 'request'
 qs = require 'querystring'
-{ transaction } = require './parse'
+{ transaction, json } = require './parse'
 
 jsedn = require 'jsedn'
 EventStream = require 'eventsource'
@@ -25,7 +25,7 @@ class exports.Datomic
   db: (done) -> get @db_uri_, done
 
   transact: (data, done) ->
-    console.log data = transaction data
+    data = transaction data
     opts =
       uri: @db_uri
       headers:
@@ -77,7 +77,7 @@ class exports.Datomic
         accept: 'application/edn'
 
     request opts, (err, res, body) ->
-      done err, body
+      done err, json body
 
   parse_opts = (opts) -> if opts.length is 1 then opts[0] else {}
 

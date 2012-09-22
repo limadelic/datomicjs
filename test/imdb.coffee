@@ -13,9 +13,9 @@ describe 'Sample with movies', ->
     
     imdb.createDatabase ->
       imdb.transact schema.movies, ->
-        add_movie 1, "pulp fiction", ->
-          add_movie 2, "fight club", ->
-            add_movie 3, "lola rennt", ->
+        add_movie 1, 'pulp fiction', ->
+          add_movie 2, 'fight club', ->
+            add_movie 3, 'lola rennt', ->
               done()
 
   it 'should return all', (done) ->

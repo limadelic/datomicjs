@@ -7,3 +7,9 @@ edn = require 'jsedn'
   new edn.Vector(
     new edn.Vector tran for tran in json
   ).ednEncode()
+
+@json = (edn_str) ->
+  try edn.toJS edn.parse edn_str
+  catch e
+    console.log e
+    edn_str
