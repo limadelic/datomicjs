@@ -40,6 +40,7 @@
     "jsedn": "latest",
     "request": "latest",
     "superagent": "latest",
+    "underscore": "latest",
     "eventsource": "https://github.com/jperkelens/eventsource-node/tarball/master"
   },
   "devDependencies": {

@@ -1,5 +1,6 @@
 request = require 'request'
 qs = require 'querystring'
+{ transaction } = require './parse'
 
 jsedn = require 'jsedn'
 EventStream = require 'eventsource'
@@ -24,6 +25,7 @@ class exports.Datomic
   db: (done) -> get @db_uri_, done
 
   transact: (data, done) ->
+    console.log data = transaction data
     opts =
       uri: @db_uri
       headers:
