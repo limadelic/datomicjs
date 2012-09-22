@@ -55,13 +55,12 @@ describe 'Datomic', ->
         movies[0][0].should.equal 1
         done()
 
-###        
   it 'should allow to query with opt', (done) ->
     
     datomic.transact '[[:db/add 2 :movie/title "the matrix"]]', ->
       datomic.transact '[[:db/add 3 :movie/title "the matrix reloaded"]]', ->
         datomic.q '[:find ?m :where [?m :movie/title]]', {limit:1, offset:2}, (err, movies) ->
-          movies.should.equal '[[2]]'
+          movies[0][0].should.equal 2
           done()
 
   it 'should register to events', (done) ->
