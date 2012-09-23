@@ -1,6 +1,6 @@
 request = require 'request'
 qs = require 'querystring'
-{ transaction, json } = require './parse'
+{ edn, json } = require './edn'
 
 jsedn = require 'jsedn'
 EventStream = require 'eventsource'
@@ -25,7 +25,7 @@ class exports.Datomic
   db: (done) -> get @db_uri_, done
 
   transact: (data, done) ->
-    data = transaction data
+    data = edn data
     opts =
       uri: @db_uri
       headers:
@@ -60,7 +60,7 @@ class exports.Datomic
 
   q: (query, opts..., done) ->
     opts = parse_opts opts
-    opts.q = query
+    opts.q = edn query
     opts.args = "[{:db/alias #{@db_alias}}]"
 
     get "#{@root}api/query?#{qs.stringify opts}", done

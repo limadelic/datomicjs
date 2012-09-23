@@ -20,11 +20,7 @@ describe 'Sample with movies', ->
                 done()
 
   it 'should return all', (done) ->
-    { transaction } = require src + 'parse'
-    edn = require 'jsedn'
-    
-    console.log edn.encode ['find', '?m'], false
 
-    imdb.q '[:find ?m :where [?m :movie/title]]', (err, movies)->
+    imdb.q [':find', '?m', ':where', ['?m', ':movie/title']], (err, movies)->
       console.log movies
       done()

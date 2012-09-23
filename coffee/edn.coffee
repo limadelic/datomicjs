@@ -1,7 +1,7 @@
 _ = require 'underscore'
 edn = require 'jsedn'
 
-@transaction = (json) ->
+@edn = (json) ->
   return json if _.isString json
   edn.encode json
 
