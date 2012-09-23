@@ -10,3 +10,11 @@ edn = require 'jsedn'
     edn.toJS edn.parse edn_str
   catch e
     edn_str
+
+@find = (args...) ->
+  args.unshift ':find'
+  args
+
+@where = (args...) ->
+  args.unshift ':where'
+  args
