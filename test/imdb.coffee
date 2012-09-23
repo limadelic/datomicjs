@@ -1,5 +1,5 @@
 { Datomic } = require src + 'datomic'
-{ edn, find, where } = require src + 'edn'
+{ edn, find } = require src + 'edn'
 schema = require './schema'
 
 describe 'Sample with movies', ->
@@ -28,5 +28,6 @@ describe 'Sample with movies', ->
     
   it 'should find trainspotting', (done) ->
     
-    console.log find '?m', where '?m', ':movie/title'
-    done()
+    imdb.q find('?m').where('?m', ':movie/title', 'trainspotting'), (err, movies) ->
+      movies[0][0].should.equal 4
+      done()

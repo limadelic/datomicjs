@@ -11,10 +11,6 @@ edn = require 'jsedn'
   catch e
     edn_str
 
-@find = (args...) ->
-  args.unshift ':find'
-  args
+@find = (args...) -> [':find'].concat args
 
-@where = (args...) ->
-  args.unshift ':where'
-  args
+Array.prototype.where = (args...) -> @.concat [':where', args]
