@@ -6,5 +6,12 @@
    :db/cardinality :db.cardinality/one
    :db/doc "movie's title"
    :db.install/_attribute :db.part/db}
+
+  {:db/id #db/id[:db.part/db]
+   :db/ident :rating
+   :db/valueType :db.type/double
+   :db/cardinality :db.cardinality/one
+   :db/doc "movie's rating"
+   :db.install/_attribute :db.part/db}
 ]
 '''
