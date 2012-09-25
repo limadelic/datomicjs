@@ -32,3 +32,10 @@ describe 'Sample with movies', ->
       imdb.entity movies[0][0], (err, movie) ->
         movie.title.should.equal 'trainspotting'
         done()
+  
+  it 'should find the highest rated movie', (done) ->
+    
+    imdb.q find('?t').where('?m', ':title', '?t'), (err, movies) ->
+      console.log movies
+      done()
+  
