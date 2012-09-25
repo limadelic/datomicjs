@@ -7,7 +7,7 @@ describe 'Sample with movies', ->
   imdb = new Datomic 'localhost', 8888, 'db', 'imdb'
 
   add_movie = (id, title, done) ->
-    imdb.transact [[':db/add', id, ':movie/title', title]], ->
+    imdb.transact [[':db/add', id, ':title', title]], ->
       done()
 
   before (done) ->
@@ -22,12 +22,13 @@ describe 'Sample with movies', ->
 
   it 'should return all', (done) ->
 
-    imdb.q [':find', '?m', ':where', ['?m', ':movie/title']], (err, movies)->
+    imdb.q [':find', '?m', ':where', ['?m', ':title']], (err, movies)->
       movies.length.should.equal 4
       done()
     
   it 'should find trainspotting', (done) ->
     
-    imdb.q find('?m').where('?m', ':movie/title', 'trainspotting'), (err, movies) ->
-      movies[0][0].should.equal 4
-      done()
+    imdb.q find('?m').where('?m', ':title', 'trainspotting'), (err, movies) ->
+      imdb.entity movies[0][0], (err, movie) ->
+        movie.title.should.equal 'trainspotting'
+        done()

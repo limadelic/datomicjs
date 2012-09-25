@@ -50,16 +50,16 @@ describe 'Datomic', ->
 
   it 'should allow to query', (done) ->
     
-    datomic.transact '[[:db/add 1 :movie/title "trainspotting"]]', ->
-      datomic.q '[:find ?m :where [?m :movie/title "trainspotting"]]', (err, movies) ->
+    datomic.transact '[[:db/add 1 :title "trainspotting"]]', ->
+      datomic.q '[:find ?m :where [?m :title "trainspotting"]]', (err, movies) ->
         movies[0][0].should.equal 1
         done()
 
   it 'should allow to query with opt', (done) ->
     
-    datomic.transact '[[:db/add 2 :movie/title "the matrix"]]', ->
-      datomic.transact '[[:db/add 3 :movie/title "the matrix reloaded"]]', ->
-        datomic.q '[:find ?m :where [?m :movie/title]]', {limit:1, offset:2}, (err, movies) ->
+    datomic.transact '[[:db/add 2 :title "the matrix"]]', ->
+      datomic.transact '[[:db/add 3 :title "the matrix reloaded"]]', ->
+        datomic.q '[:find ?m :where [?m :title]]', {limit:1, offset:2}, (err, movies) ->
           movies[0][0].should.equal 2
           done()
 
