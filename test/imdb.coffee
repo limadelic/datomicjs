@@ -1,16 +1,15 @@
 { Datomic } = require src + 'datomic'
-{ edn, find } = require src + 'edn'
+{ edn, find, f } = require src + 'edn'
 schema = require './schema'
 
 describe 'Sample with movies', ->
 
   imdb = new Datomic 'localhost', 8888, 'db', 'imdb'
 
-  add_movie = (id, title, rating, done) ->
-    imdb.transact [
-      [':db/add', id, ':title', title]
-      [':db/add', id, ':rating', rating]
-    ], -> done()
+  add_movie = (id, title, rating, done) -> imdb.transact [
+    [':db/add', id, ':title', title]
+    [':db/add', id, ':rating', rating]
+  ], -> done()
 
   before (done) ->
     
@@ -35,9 +34,21 @@ describe 'Sample with movies', ->
         movie.title.should.equal 'trainspotting'
         done()
   
-  it 'should find the highest rated movie', (done) ->
+  it 'should find the highest movie over 8.8', (done) ->
     
-    imdb.q find('?r').where('?m', ':rating', '?r'), (err, movies) ->
-      console.log movies
+    imdb.q [
+      ':find'
+      '?t'
+      ':where'
+      ['?m', ':rating', '?r']
+      ['?m', ':title', '?t']
+      [f '>', '?r', 8.8]
+    ], (err, movies) ->
+    #    imdb.q find('?r').where(
+    #  ['?m', ':rating', '?r']
+    #  ['?m2', ':rating', '?r2']
+    #  -> ['>', '?r', '?r2']
+    #), (err, movies) ->
+      movies[0][0].should.equal 'pulp fiction'
       done()
   
