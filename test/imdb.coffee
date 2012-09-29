@@ -42,7 +42,7 @@ describe 'Sample with movies', ->
       ':where'
       ['?m', ':rating', '?r']
       ['?m', ':title', '?t']
-      [f '>', '?r', 8.8]
+      [ f '>', '?r', 8.8 ]
     ], (err, movies) ->
     #    imdb.q find('?r').where(
     #  ['?m', ':rating', '?r']
