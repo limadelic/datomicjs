@@ -37,10 +37,10 @@
     "MIT"
   ],
   "dependencies": {
-    "jsedn": "latest",
     "request": "latest",
     "superagent": "latest",
     "underscore": "latest",
+    "jsedn": "https://github.com/limadelic/jsedn/tarball/master",
     "eventsource": "https://github.com/jperkelens/eventsource-node/tarball/master"
   },
   "devDependencies": {
