@@ -21,52 +21,61 @@ describe 'Sample with movies', ->
               add_movie 4, 'trainspotting', 8.2, ->
                 done()
 
-  it 'should return all', (done) ->
-
-    imdb.q [':find', '?m', ':where', ['?m', ':title']], (err, movies)->
-      movies.length.should.equal 4
-      done()
-    
-  it 'should find trainspotting', (done) ->
-    
-    imdb.q find('?m').where('?m', ':title', 'trainspotting'), (err, movies) ->
-      imdb.entity movies[0][0], (err, movie) ->
-        movie.title.should.equal 'trainspotting'
-        done()
+  describe 'pure json', ->
   
-  it 'should find a movie over 8.8', (done) ->
-    
-    imdb.q [
-      ':find', '?t', ':where',
-        ['?m', ':title', '?t']
-        ['?m', ':rating', '?r']
-        [ f('>', '?r', 8.8) ]
-    ], (err, movies) ->
+    it 'should return all', (done) ->
+
+      imdb.q [':find', '?m', ':where', ['?m', ':title']], (err, movies)->
+        movies.length.should.equal 4
+        done()
       
-      movies[0][0].should.equal 'pulp fiction'
-      done()
-
-  it 'should find a movie under 8', (done) ->
-    
-    imdb.q find('?t')
-    .where('?m', ':title', '?t')
-    .and('?m', ':rating', '?r')
-    .lt('?r', 8), (err, movies) ->
-
-      movies[0][0].should.equal 'lola rennt'
-      done()
-  
-  it 'should find any movie', (done) ->
-
-    imdb.q [':find', '?m', ':in', '$', '?t', ':where', ['?m', ':title', '?t']],
-      {args: ['fight club']},
-      (err, movie) ->
-        movie[0][0].should.equal 2
+   
+    it 'should find a movie over 8.8', (done) ->
+      
+      imdb.q [
+        ':find', '?t', ':where',
+          ['?m', ':title', '?t']
+          ['?m', ':rating', '?r']
+          [ f('>', '?r', 8.8) ]
+      ], (err, movies) ->
+        
+        movies[0][0].should.equal 'pulp fiction'
         done()
-###
-    imdb.q find('?m').in('?t').where('?m', ':title', '?t'),
-    {args: ['trainspotting']},
-    (err, movie) ->
-      movie[0][0].should.equal 4
-      done()
 
+    it 'should find any movie', (done) ->
+
+      imdb.q [':find', '?m', ':in', '$', '?t', ':where', ['?m', ':title', '?t']],
+        {args: ['fight club']},
+        (err, movie) ->
+          movie[0][0].should.equal 2
+          done()
+
+  describe 'fluent interface', ->
+
+    it 'should find trainspotting', (done) ->
+      
+      imdb.q find('?m').where('?m', ':title', 'trainspotting'), (err, movies) ->
+        imdb.entity movies[0][0], (err, movie) ->
+          movie.title.should.equal 'trainspotting'
+          done()
+
+    it 'should find a movie under 8', (done) ->
+      
+      imdb.q find('?t')
+      .where('?m', ':title', '?t')
+      .and('?m', ':rating', '?r')
+      .lt('?r', 8), (err, movies) ->
+
+        movies[0][0].should.equal 'lola rennt'
+        done()
+          
+    it 'should find any movie', (done) ->
+
+      imdb.q find('?m')
+        .in('?t')
+        .where('?m', ':title', '?t'),
+        {args: ['trainspotting']},
+        (err, movie) ->
+
+          movie[0][0].should.equal 4
+          done()

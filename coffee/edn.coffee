@@ -21,6 +21,10 @@ class Query
   constructor: (args) ->
     @data = [':find'].concat args
 
+  in: (args...) ->
+    @data = @data.concat [':in', '$'].concat args
+    @
+  
   where: (args...) ->
     @data = @data.concat [':where', args]
     @
