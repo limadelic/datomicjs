@@ -34,15 +34,13 @@ describe 'Sample with movies', ->
         movie.title.should.equal 'trainspotting'
         done()
   
-  it 'should find the highest movie over 8.8', (done) ->
+  it 'should find a movie over 8.8', (done) ->
     
     imdb.q [
-      ':find'
-      '?t'
-      ':where'
-      ['?m', ':rating', '?r']
-      ['?m', ':title', '?t']
-      [ f '>', '?r', 8.8 ]
+      ':find', '?t', ':where',
+        ['?m', ':title', '?t']
+        ['?m', ':rating', '?r']
+        [ f('>', '?r', 8.8) ]
     ], (err, movies) ->
     #    imdb.q find('?r').where(
     #  ['?m', ':rating', '?r']

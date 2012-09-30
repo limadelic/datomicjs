@@ -7,7 +7,6 @@ edn = require 'jsedn'
   edn.encode json
 
 @json = (edn_str) ->
-  console.log edn_str
   try
     edn.toJS edn.parse edn_str
   catch e
@@ -15,11 +14,7 @@ edn = require 'jsedn'
 
 @find = (args...) -> new Query args
 
-@f = (args...) ->
-  result = edn.parse '(> ?r 8.8)'
-  result.val[1] = '?r'
-  console.log edn.encode [ result ]
-  result
+@f = (args...) -> new edn.List args
   
 class Query
 
