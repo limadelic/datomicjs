@@ -49,9 +49,9 @@ describe 'Sample with movies', ->
   it 'should find a movie under 8', (done) ->
     
     imdb.q find('?t')
-      .where('?m', ':title', '?t')
-      .and('?m', ':rating', '?r')
-      .lt('?r', 8), (err, movies) ->
+    .where('?m', ':title', '?t')
+    .and('?m', ':rating', '?r')
+    .lt('?r', 8), (err, movies) ->
 
       movies[0][0].should.equal 'lola rennt'
       done()

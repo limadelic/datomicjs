@@ -14,13 +14,24 @@ edn = require 'jsedn'
 
 @find = (args...) -> new Query args
 
-@f = (args...) -> new edn.List args
+@f = f = (args...) -> new edn.List args
   
 class Query
 
   constructor: (args) ->
     @data = [':find'].concat args
 
-  where: (args...) -> @data = @data.concat [':where', args]
+  where: (args...) ->
+    @data = @data.concat [':where', args]
+    @
+  
+  and: (args...) ->
+    @data.push args
+    @
 
-  edn: -> edn @data
+  lt: (args...) ->
+    @data.push [ f.apply @, ['<'].concat args ]
+    @
+
+  edn: -> edn.encode @data
+
