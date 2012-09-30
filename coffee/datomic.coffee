@@ -61,7 +61,10 @@ class exports.Datomic
   q: (query, opts..., done) ->
     opts = parse_opts opts
     opts.q = edn query
-    opts.args = "[{:db/alias #{@db_alias}}]"
+    
+    opts.args ?= []
+    opts.args.unshift 'db/alias': @db_alias
+    opts.args = edn opts.args
 
     get "#{@root}api/query?#{qs.stringify opts}", done
 

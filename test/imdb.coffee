@@ -55,3 +55,12 @@ describe 'Sample with movies', ->
 
       movies[0][0].should.equal 'lola rennt'
       done()
+  
+  it 'should find any movie', (done) ->
+
+    imdb.q '[:find ?m :in $ ?t :where [?m :title ?t]]',
+    {args: ['fight club']},
+    (err, movie) ->
+      movie[0][0].should.equal 2
+      done()
+
