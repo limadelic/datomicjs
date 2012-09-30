@@ -42,11 +42,16 @@ describe 'Sample with movies', ->
         ['?m', ':rating', '?r']
         [ f('>', '?r', 8.8) ]
     ], (err, movies) ->
-    #    imdb.q find('?r').where(
-    #  ['?m', ':rating', '?r']
-    #  ['?m2', ':rating', '?r2']
-    #  -> ['>', '?r', '?r2']
-    #), (err, movies) ->
+      
       movies[0][0].should.equal 'pulp fiction'
       done()
-  
+
+  it 'should find a movie under 8', (done) ->
+    
+    imdb.q find('?t')
+      .where('?m', ':title', '?t')
+      .and('?m', ':rating', '?r')
+      .lt('?r', 8), (err, movies) ->
+
+      movies[0][0].should.equal 'lola rennt'
+      done()
