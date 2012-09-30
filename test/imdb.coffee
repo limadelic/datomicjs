@@ -58,9 +58,15 @@ describe 'Sample with movies', ->
   
   it 'should find any movie', (done) ->
 
-    imdb.q '[:find ?m :in $ ?t :where [?m :title ?t]]',
-    {args: ['fight club']},
+    imdb.q [':find', '?m', ':in', '$', '?t', ':where', ['?m', ':title', '?t']],
+      {args: ['fight club']},
+      (err, movie) ->
+        movie[0][0].should.equal 2
+        done()
+###
+    imdb.q find('?m').in('?t').where('?m', ':title', '?t'),
+    {args: ['trainspotting']},
     (err, movie) ->
-      movie[0][0].should.equal 2
+      movie[0][0].should.equal 4
       done()
 
