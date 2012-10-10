@@ -1,8 +1,5 @@
 request = require 'request'
 qs = require 'querystring'
-{ edn, json } = require './edn'
-
-jsedn = require 'jsedn'
 EventStream = require 'eventsource'
 
 class exports.Datomic
@@ -12,6 +9,12 @@ class exports.Datomic
     @db_alias = alias + '/' + name
     @db_uri = "#{@root}data/#{@db_alias}/"
     @db_uri_ = @db_uri + '-/'
+
+  storages: (done) ->
+    get "#{@root}data/", done
+
+  databases: (alias, done) ->
+    get "#{@root}data/#{alias}/", done
 
   createDatabase: (done) ->
     opts =
@@ -25,7 +28,6 @@ class exports.Datomic
   db: (done) -> get @db_uri_, done
 
   transact: (data, done) ->
-    data = edn data
     opts =
       uri: @db_uri
       headers:
@@ -45,7 +47,6 @@ class exports.Datomic
   indexRange: (attrid, opts..., done) ->
     opts = parse_opts opts
     opts.a = attrid
-    opts.index ?= 'aevt'
 
     get "#{@db_uri_}datoms?#{qs.stringify opts}", done
 
@@ -60,12 +61,10 @@ class exports.Datomic
 
   q: (query, opts..., done) ->
     opts = parse_opts opts
-    opts.q = edn query
-    
-    opts.args ?= []
-    opts.args.unshift 'db/alias': @db_alias
-    opts.args = edn opts.args
 
+    opts.q = if query.edn? then query.edn() else query
+
+    opts.args or= "[{:db/alias \"#{@db_alias}\"}]"
     get "#{@root}api/query?#{qs.stringify opts}", done
 
   events: ->
@@ -81,7 +80,7 @@ class exports.Datomic
         accept: 'application/edn'
 
     request opts, (err, res, body) ->
-      done err, json body
+      done err, body
 
   parse_opts = (opts) -> if opts.length is 1 then opts[0] else {}
 
