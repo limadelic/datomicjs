@@ -1,15 +1,28 @@
 { Datomic } = require src + 'datomic'
+parse = require '../lib/parse'
 schema = require './schema'
 
 describe 'Datomic', ->
 
   datomic = new Datomic 'localhost', 8888, 'db', 'test'
   
+  it 'should fetch available storage aliases', (done) ->
+
+    datomic.storages (err, storages) ->
+      parse.json(storages).should.include 'db'
+      done()
+
+  it 'should fetch a list of databases for a storage alias', (done) ->
+
+    datomic.databases 'db', (err, databases) ->
+      parse.json(databases).should.include 'test'
+      done()
+
   it 'should create a DB', (done) ->
     
     datomic.createDatabase (err, created) ->
       datomic.db (err, db) ->
-        db['db/alias'].should.equal 'db/test'
+        parse.json(db)['db/alias'].should.equal 'db/test'
         done()
 
   it 'should make transactions', (done) ->
@@ -27,7 +40,7 @@ describe 'Datomic', ->
   it 'should get datoms with options', (done) ->
 
     datomic.datoms 'avet', {limit:1}, (err, datoms) ->
-      datoms.length.should.equal 1
+      parse.json(datoms).length.should.equal 1
       done()
       
   it 'should get a range of index data', (done) ->
@@ -39,29 +52,42 @@ describe 'Datomic', ->
   it 'should get an entity', (done) ->
 
     datomic.entity 1, (err, entity) ->
-      entity['db/id'].should.equal 1
+      parse.json(entity)['db/id'].should.equal 1
       done()
 
   it 'should get an entity with options', (done) ->
 
     datomic.entity {e:1, since:0}, (err, entity) ->
-      entity['db/id'].should.equal 1
+      parse.json(entity)['db/id'].should.equal 1
       done()
 
   it 'should allow to query', (done) ->
     
-    datomic.transact '[[:db/add 1 :title "trainspotting"]]', ->
-      datomic.q '[:find ?m :where [?m :title "trainspotting"]]', (err, movies) ->
-        movies[0][0].should.equal 1
+    datomic.transact '[[:db/add #db/id [:db.part/user] :movie/title "trainspotting"]]', ->
+      datomic.q '[:find ?m :where [?m :movie/title "trainspotting"]]', (err, movies) ->
+        parse.json(movies)[0][0].should.be.above 1
         done()
 
   it 'should allow to query with opt', (done) ->
     
-    datomic.transact '[[:db/add 2 :title "the matrix"]]', ->
-      datomic.transact '[[:db/add 3 :title "the matrix reloaded"]]', ->
-        datomic.q '[:find ?m :where [?m :title]]', {limit:1, offset:2}, (err, movies) ->
-          movies[0][0].should.equal 2
+    datomic.transact '[[:db/add #db/id [:db.part/user] :movie/title "the matrix"]]', ->
+      datomic.transact '[[:db/add #db/id [:db.part/user] :movie/title "the matrix reloaded"]]', ->
+        datomic.q '[:find ?m :where [?m :movie/title]]', {limit:1, offset:2}, (err, movies) ->
+          parse.json(movies)[0][0].should.be.above 1
           done()
+
+  it 'should allow passing arguments to query', (done) ->
+
+    datomic.q '[:find ?first ?height :in [?last ?first ?email] [?email ?height]]',
+      args: """[
+        ["Doe" "John" "jdoe@example.com"]
+        ["jdoe@example.com" 71]
+      ]"""
+      (err, result) ->
+        data = parse.json result
+        data[0][0].should.equal 'John'
+        data[0][1].should.equal 71
+        done()
 
   it 'should register to events', (done) ->
     client = datomic.events()
