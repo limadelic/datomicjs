@@ -16,11 +16,11 @@ class exports.Datomic
   databases: (alias, done) ->
     get "#{@root}data/#{alias}/", done
 
-  createDatabase: (done) ->
+  createDatabase: (alias, name, done) ->
     opts =
-      uri: "#{@root}data/db/"
+      uri: "#{@root}data/#{alias}/"
       form:
-        'db-name': @name
+        'db-name': name
 
     request.post opts, (err, res, body) ->
       done err, res.statusCode is 201
